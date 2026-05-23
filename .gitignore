@@ -1,0 +1,19 @@
+# env
+.env
+.env.*
+
+# python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# jupyter
+.ipynb_checkpoints/
+
+# os
+.DS_Store
+
+# legacy / drafts not (yet) published
+_archive/
+out.ipynb

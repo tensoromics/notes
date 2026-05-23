@@ -1,0 +1,4 @@
+anthropic>=0.40.0
+biopython>=1.84
+pandas>=2.2.0
+jupyterlab>=4.2.0
