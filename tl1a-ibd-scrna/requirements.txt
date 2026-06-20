@@ -1,0 +1,8 @@
+# TL1A scRNA analysis — needs Python 3.12 (scanpy's numba stack has no 3.14 wheels).
+#   uv venv --python 3.12 .venv && uv pip install -r requirements.txt
+# (or: python3.12 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt)
+scanpy[leiden]>=1.10
+scikit-misc
+matplotlib
+pandas
+requests

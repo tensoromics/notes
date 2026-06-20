@@ -1,0 +1,16 @@
+# env
+.venv/
+__pycache__/
+*.pyc
+
+# data (re-downloadable via scripts/download_data.sh — see data/DATA_SOURCES.md)
+data/*.h5ad
+data/*.h5
+data/*.gz
+data/*.zip
+
+# generated outputs
+figures/*
+results/*
+!figures/.gitkeep
+!results/.gitkeep
