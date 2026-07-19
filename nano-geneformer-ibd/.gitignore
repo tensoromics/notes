@@ -1,0 +1,10 @@
+data/
+checkpoints/
+smillie/
+*.h5ad
+*.loom
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store
