@@ -84,6 +84,7 @@ def main():
 
     sched = torch.optim.lr_scheduler.LambdaLR(opt, lr_lambda)
 
+    loss_log = []
     model.train()
     for epoch in range(args.epochs):
         pbar = tqdm(dl, desc=f"epoch {epoch+1}/{args.epochs}")
@@ -98,6 +99,7 @@ def main():
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             opt.step()
             sched.step()
+            loss_log.append(float(loss.item()))
             pbar.set_postfix(loss=f"{loss.item():.3f}", lr=f"{sched.get_last_lr()[0]:.1e}")
 
         ckpt = os.path.join(args.out, "model.pt")
@@ -105,6 +107,9 @@ def main():
                     "cfg": cfg.to_dict(), "vocab_size": vocab_size,
                     "max_len": max_len}, ckpt)
         print(f"saved {ckpt}")
+
+    np.save(os.path.join(args.out, "loss_history.npy"), np.asarray(loss_log, dtype=np.float32))
+    print(f"saved loss history: {len(loss_log)} steps")
 
 
 if __name__ == "__main__":

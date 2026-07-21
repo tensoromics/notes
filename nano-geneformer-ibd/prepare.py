@@ -39,6 +39,41 @@ def load_adata(path):
     raise ValueError(f"Unrecognized data format: {path}")
 
 
+def three_sd_outlier(x, nsd):
+    """True where x is more than nsd SDs from the mean (either side)."""
+    x = np.asarray(x, dtype=np.float64)
+    m, s = x.mean(), x.std()
+    if s == 0:
+        return np.zeros(len(x), dtype=bool)
+    return (x < m - nsd * s) | (x > m + nsd * s)
+
+
+def geneformer_qc(adata, cfg):
+    """Adaptive per-'dataset' QC (Genecorpus-30M): drop cells outside +-qc_nsd SD
+    of the per-group mean on total counts AND mitochondrial %. Tissue-aware."""
+    counts = np.asarray(adata.X.sum(axis=1)).ravel()
+    mt_mask = np.asarray(adata.var_names.str.startswith(cfg.mito_prefix))
+    mt_counts = (np.asarray(adata[:, mt_mask].X.sum(axis=1)).ravel()
+                 if mt_mask.any() else np.zeros(adata.n_obs))
+    pct_mt = 100.0 * mt_counts / np.maximum(counts, 1.0)
+    logc = np.log1p(counts)
+    groups = (adata.obs[cfg.qc_group_col].astype(str).values
+              if cfg.qc_group_col in adata.obs.columns
+              else np.zeros(adata.n_obs, dtype=int))
+    unit = cfg.qc_group_col if cfg.qc_group_col in adata.obs.columns else "dataset"
+    remove = np.zeros(adata.n_obs, dtype=bool)
+    for g in np.unique(groups):
+        m = groups == g
+        remove[m] |= (three_sd_outlier(pct_mt[m], cfg.qc_nsd)
+                      | three_sd_outlier(logc[m], cfg.qc_nsd))
+    n_rm = int(remove.sum())
+    med = float(np.median(pct_mt[remove])) if n_rm else 0.0
+    print(f"  Geneformer QC (per-{unit} +-{cfg.qc_nsd:g} SD on counts & mito%): "
+          f"drop {n_rm} cells ({100 * n_rm / adata.n_obs:.1f}%), "
+          f"median mito% of dropped = {med:.1f}%")
+    return adata[~remove].copy()
+
+
 def require_col(adata, col, kind):
     if col not in adata.obs.columns:
         raise SystemExit(
@@ -68,9 +103,13 @@ def main():
     adata.var_names_make_unique()
     print(f"  {adata.n_obs} cells x {adata.n_vars} genes")
 
+    # ---- adaptive QC on the FULL atlas (before subsampling, for robust stats) -
+    if cfg.mito_qc:
+        adata = geneformer_qc(adata, cfg)
+
     if args.subsample and adata.n_obs > args.subsample:
         sc.pp.subsample(adata, n_obs=args.subsample, random_state=cfg.seed)
-        print(f"  subsampled to {adata.n_obs} cells (fast test run)")
+        print(f"  subsampled to {adata.n_obs} cells (from QC survivors)")
 
     require_col(adata, args.patient_col, "patient_col")
     require_col(adata, args.label_col, "label_col")

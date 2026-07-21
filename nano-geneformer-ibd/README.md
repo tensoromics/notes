@@ -11,29 +11,25 @@ runs on `mps` (Apple Metal), `cuda`, or `cpu`, auto-detected.
 
 ---
 
-## 0. Setup
+## 0. Status of this checkout
 
-- **Environment:** Python 3.11 or 3.12. Create a virtual environment and install
-  the dependencies:
-  ```bash
-  python3 -m venv .venv && source .venv/bin/activate
-  pip install -r requirements.txt
-  ```
-  Everything runs on `mps` (Apple Metal), `cuda`, or `cpu`, auto-detected.
-- **Data:** download the Smillie et al. 2019 UC atlas from the Broad Single Cell
-  Portal ([SCP259](https://singlecell.broadinstitute.org/single_cell/study/SCP259))
-  into a `smillie/` folder next to the scripts — the three compartment matrices
-  (Epi/Fib/Imm) plus `Smillie_meta2.txt`. `prepare.py` auto-detects that layout.
-  The atlas is ~5 GB, so it is not included in this repo.
-- **Optional:** `all.meta2.txt` from SCP259 adds batch/sex covariates;
-  `load_smillie.py` merges its columns automatically if a valid copy is present.
+- **Environment:** `.venv/` (Python 3.12, torch 2.13 with MPS, scanpy 1.12) is
+  already installed. Nothing else to set up.
+- **Data:** `smillie/` holds the Smillie et al. 2019 UC atlas (Broad SCP259) —
+  three compartment matrices (Epi/Fib/Imm), all verified complete, **365,492
+  cells** total, aligned to `Smillie_meta2.txt`.
+- **Known gap:** `all.meta2.txt` downloaded as an expired-token XML error, so
+  **batch/sex covariates aren't available yet**. Re-download it from SCP259 with
+  a fresh link; `load_smillie.py` will merge its extra columns automatically the
+  next time you run `prepare.py`. Everything works without it meanwhile.
 
 ---
 
 ## 1. Open in VSCode
 
 1. Open this folder in VSCode.
-2. Command Palette → **Python: Select Interpreter** → pick `./.venv/bin/python`.
+2. Command Palette → **Python: Select Interpreter** → pick `./.venv/bin/python`
+   (`.vscode/settings.json` already points here, so this is usually automatic).
 3. Open the **Run and Debug** panel (⇧⌘D). The dropdown has four stages plus a
    fast subsampled prep — press ▶ to run any of them, or use the terminal
    commands below.

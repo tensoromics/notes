@@ -26,6 +26,16 @@ class Config:
     min_genes_per_cell: int = 200  # QC filter
     min_cells_per_gene: int = 10   # QC filter
 
+    # Geneformer-style adaptive QC (Genecorpus-30M criteria): keep cells within
+    # +-qc_nsd SD of the per-"dataset" mean on BOTH total counts and mito %.
+    # Tissue-aware by construction: each sample's own distribution sets the bar,
+    # so intrinsically high-mito colon epithelium survives while the dying tail
+    # (extreme mito %) is removed. See geneformer_qc_impact.py.
+    mito_qc: bool = True
+    qc_nsd: float = 3.0
+    mito_prefix: str = "MT-"
+    qc_group_col: str = "Sample"   # per-"dataset" unit; falls back to whole set if absent
+
     # patient-level split: every Nth patient (sorted) goes to validation.
     # Keeps whole patients out of training -> honest probing. See README caveats.
     val_every: int = 5             # ~20% of patients held out
