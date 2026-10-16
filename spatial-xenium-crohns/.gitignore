@@ -1,0 +1,16 @@
+# env
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# data (download from SCP3259, see data/DATA_SOURCES.md; not redistributable)
+data/*.h5ad
+data/*.gz
+data/*.csv
+
+# generated outputs
+figures/*
+results/*
+!figures/.gitkeep
+!results/.gitkeep
