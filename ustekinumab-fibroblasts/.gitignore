@@ -1,0 +1,6 @@
+# downloaded data and outputs stay local
+data/*
+!data/DATA_SOURCES.md
+results/*
+!results/.gitkeep
+.venv/
