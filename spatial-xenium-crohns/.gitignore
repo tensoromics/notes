@@ -14,3 +14,6 @@ figures/*
 results/*
 !figures/.gitkeep
 !results/.gitkeep
+
+# 10x skin sample for part 2, Figure 5 (download from 10x Genomics)
+data/Xenium_Prime_Human_Skin_FFPE/

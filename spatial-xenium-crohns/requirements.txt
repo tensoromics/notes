@@ -1,7 +1,7 @@
-# A first look at a Crohn's spatial atlas: reads the h5ad with h5py (no scanpy needed)
+# Spatial transcriptomics of Crohn's disease, parts 1-2: reads the h5ad with h5py (no scanpy needed)
 h5py
 numpy
 pandas
-matplotlib
+matplotlib>=3.10
 scipy
 jupyterlab
