@@ -64,10 +64,10 @@ ax.tick_params(axis="x", colors=MUTED, labelsize=10, labelcolor=INK)
 ax.grid(axis="x", color=GRID, lw=0.8, zorder=0)
 ax.set_xlabel("change in openness per copy of the risk-side allele (normalized units)", fontsize=10.5, color=INK)
 
-fig.suptitle("The ETS2 enhancer peak is a caQTL in 3 of the 26 cell types TenK10K tested", fontsize=13, color=INK,
+fig.suptitle("The ETS2 enhancer peak has a caQTL in 3 of the 26 cell types TenK10K tested", fontsize=13, color=INK,
              x=0.01, ha="left", y=0.985)
-fig.text(0.01, 0.9, "Peak chr21:39,094,096–39,094,839 (743 bp), with rs2836882 inside it. It counts as a caQTL only in "
-         "cell types where its openness depends on genotype.", fontsize=10, color=MUTED, ha="left")
+fig.text(0.01, 0.9, "Peak chr21:39,094,096–39,094,839 (743 bp), with rs2836882 inside it. It has a caQTL only in "
+         "cell types where its openness is associated with genotype.", fontsize=10, color=MUTED, ha="left")
 fig.tight_layout(rect=(0, 0, 1, 0.88))
 fig.savefig(out, dpi=200, facecolor="white")
 print("wrote", out)
