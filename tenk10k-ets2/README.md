@@ -1,7 +1,7 @@
 # TenK10K meets ETS2
 
 Figure code for the TensorOmics note
-[How much of the ETS2 story can a chromatin atlas recover?](https://tensoromics.com/notes/tenk10k-chromatin-atlas-ets2-ibd/),
+[TenK10K at ETS2: a blood chromatin atlas recovers an IBD mechanism](https://tensoromics.com/notes/tenk10k-chromatin-atlas-ets2-ibd/),
 on Xue et al.,
 [Genetic variants shape single-cell chromatin accessibility and disease risk](https://www.nature.com/articles/s41586-026-11173-4)
 (Nature, 2026). The note compares the TenK10K chromatin atlas with what Stankey et al.
